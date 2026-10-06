@@ -67,7 +67,7 @@ def sample_path() -> None:
     console.print(str(get_settings().sample_dir.resolve()))
 
 
-def _print_result(result: ClassificationResult, explain: bool) -> None:
+def _print_banner(result: ClassificationResult) -> None:
     console.print(f"[bold]{result.hgvs}[/bold]  {result.gene}")
     if result.sample_id:
         console.print(f"sample: {result.sample_id}")
@@ -95,6 +95,71 @@ def _print_result(result: ClassificationResult, explain: bool) -> None:
     if result.skipped_codes:
         shown = ", ".join(result.skipped_codes)
         console.print(f"skipped: {shown}")
+
+
+def _print_summary(result: ClassificationResult) -> None:
+    """100x30 video layout: banner + applied rows only. No node trace."""
+
+    summary = Console(width=100, highlight=False)
+    summary.print(f"[bold]{result.hgvs}[/bold]  {result.gene}")
+    if result.sample_id:
+        summary.print(f"sample: {result.sample_id}")
+    if result.insufficient_evidence:
+        summary.print("[bold red]INSUFFICIENT EVIDENCE[/bold red]")
+        summary.print("No catalog coverage. No ACMG tier. Confidence 0 — a refusal, not a guess.")
+        summary.print(f"confidence: {result.confidence}")
+    elif result.conflicting:
+        summary.print("[bold yellow]CONFLICTING EVIDENCE[/bold yellow]")
+        summary.print("Evidence points both ways. No single ACMG tier is emitted.")
+        summary.print(f"classification: {result.classification}")
+    else:
+        summary.print(f"classification: [bold]{result.classification}[/bold]")
+        if result.matched_rule:
+            summary.print(f"matched rule: {result.matched_rule}")
+    if result.short_circuited_ba1:
+        summary.print("BA1 stand-alone short-circuit. Remaining criteria listed as skipped.")
+    summary.print(f"applied: {', '.join(result.applied_codes) or '(none)'}")
+    if result.skipped_codes:
+        summary.print(f"skipped: {', '.join(result.skipped_codes)}")
+    applied = [c for c in result.calls if c.applied]
+    if applied:
+        summary.print()
+        summary.print("[bold]Evidence[/bold]")
+        summary.print(f"{'code':<6} {'applied':<8} {'strength':<12} rationale")
+        for call in applied:
+            rationale = " ".join(call.rationale.split())
+            if len(rationale) > 68:
+                rationale = rationale[:67] + "…"
+            summary.print(f"{call.code:<6} {'yes':<8} {(call.strength or ''):<12} {rationale}")
+            if call.sources:
+                summary.print(f"{'':6} source: {', '.join(call.sources)}")
+    if result.overlay_diffs:
+        changed = [
+            d
+            for d in result.overlay_diffs
+            if d.default_applied != d.overlay_applied or d.default_strength != d.overlay_strength
+        ]
+        if changed:
+            summary.print()
+            summary.print(
+                f"VCEP: default {result.default_classification} | "
+                f"overlay {result.overlay_classification}"
+            )
+            for diff in changed:
+                note = " ".join(diff.overlay_rationale.split())
+                if len(note) > 52:
+                    note = note[:51] + "…"
+                summary.print(
+                    f"  {diff.code}: {diff.default_strength} → {diff.overlay_strength}  {note}"
+                )
+    summary.print()
+    summary.print(f"cost: ${result.cost_usd:.4f} (cache-only)  latency: {result.latency_ms:.2f} ms")
+    summary.print()
+    summary.print(result.disclaimer)
+
+
+def _print_result(result: ClassificationResult, explain: bool) -> None:
+    _print_banner(result)
     if explain:
         console.print("\n[bold]Evidence trail[/bold]")
         table = Table(show_header=True, header_style="bold")
@@ -159,6 +224,9 @@ def _print_result(result: ClassificationResult, explain: bool) -> None:
 def classify_cmd(
     hgvs: str = typer.Option(..., "--hgvs", help="HGVS from the committed sample or probe set"),
     explain: bool = typer.Option(False, "--explain", help="Print the full evidence trail"),
+    summary: bool = typer.Option(
+        False, "--summary", help="100-column layout for the regenerable video"
+    ),
     as_json: bool = typer.Option(False, "--json", help="Emit ClassificationResult JSON"),
 ) -> None:
     """Classify a committed HGVS. Research tool; not clinical interpretation."""
@@ -172,7 +240,32 @@ def classify_cmd(
     if as_json:
         console.print_json(result.model_dump_json())
         return
+    if summary:
+        _print_summary(result)
+        return
     _print_result(result, explain=explain)
+
+
+@app.command("eval")
+def eval_cmd(
+    summary: bool = typer.Option(True, "--summary/--full", help="Four-row concordance table"),
+) -> None:
+    """Print the Phase 3 concordance table (same numbers as `make eval`)."""
+
+    from acmg_triage.eval_table import run_eval_summary
+
+    payload, rows = run_eval_summary()
+    out = Console(width=100, highlight=False)
+    out.print("[bold]acmg-triage eval[/bold]  n=100 committed probe variants")
+    out.print()
+    out.print(f"{'System':<34} {'Conc.':>6} {'n':>4}  Notes")
+    for system, conc, n, notes in rows:
+        note = notes if len(notes) <= 48 else notes[:47] + "…"
+        out.print(f"{system:<34} {conc:>6} {n:>4}  {note}")
+    out.print()
+    out.print(str(payload["decision"]))
+    if not summary:
+        out.print("Full harness output: make eval")
 
 
 @app.command("batch")

@@ -1,14 +1,14 @@
 export PATH := $(HOME)/.local/bin:$(PATH)
 UV ?= uv
 
-.PHONY: setup lint test research eval demo record
+.PHONY: setup lint test research eval demo record demo-shots
 
 setup:
 	$(UV) sync --extra dev
 
 lint:
-	$(UV) run ruff check src tests research
-	$(UV) run ruff format --check src tests research
+	$(UV) run ruff check src tests research demo
+	$(UV) run ruff format --check src tests research demo
 	$(UV) run mypy
 
 test:
@@ -34,5 +34,9 @@ demo:
 	$(UV) run acmg classify --hgvs "NM_001005237.2:c.200A>G"
 	$(MAKE) eval
 
+demo-shots:
+	$(UV) run --with pyyaml python demo/verify_shots.py
+
 record:
 	bash demo/record.sh
+	bash demo/render.sh

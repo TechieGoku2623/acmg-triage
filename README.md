@@ -8,6 +8,8 @@ insufficient-evidence refusals.
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+![Conflict refusal — the header loop](demo/out/acmg-triage-demo.gif)
+
 ## Status
 
 | Phase | Deliverable | Status |
@@ -43,8 +45,12 @@ used.
 `make demo` is the full walkthrough: demo-plan, classify S1/S2/S3/S5, then
 `make eval`. No credentials. No downloads. Under five minutes.
 
-Recordings: `demo/01-classify-pathogenic.cast`,
-`demo/02-conflict-and-refusal.cast`, `demo/03-evaluation.cast`.
+The video is generated from `demo/script/shots.yaml` — the same commands,
+never a screen share. `make record` rebuilds every asset. The 100×30 shots
+use `--summary` so output fits a phone-width frame; `--explain` is the
+full trail below.
+
+Regenerate: see `demo/README.md`.
 
 ### Step 1 — designed sample set
 
@@ -97,6 +103,8 @@ sampled.
 acmg classify --hgvs "NM_000059.4:c.5946del" --explain
 ```
 
+![S1 evidence trail](demo/out/acmg-triage-01-pathogenic.gif)
+
 Actual stdout:
 
 ```
@@ -136,6 +144,8 @@ supporting and would be Uncertain significance. Both are printed.
 acmg classify --hgvs "NM_000059.4:c.1114A>C" --explain
 ```
 
+![BA1 short-circuit](demo/out/acmg-triage-02-ba1.gif)
+
 Actual stdout:
 
 ```
@@ -164,6 +174,8 @@ requires review by a licensed molecular geneticist.
 acmg classify --hgvs "NM_000059.4:c.2311G>A" --explain
 ```
 
+![CONFLICTING EVIDENCE](demo/out/acmg-triage-03-conflict.gif)
+
 Actual stdout:
 
 ```
@@ -187,6 +199,8 @@ acmg classify --hgvs "NM_001005237.2:c.200A>G"
 make eval
 ```
 
+![Insufficient evidence refusal](demo/out/acmg-triage-04-insufficient.gif)
+
 Actual classify stdout:
 
 ```
@@ -206,6 +220,12 @@ requires review by a licensed molecular geneticist.
 
 `make eval` regenerates `docs/EVALUATION.md` from the Phase 0 harnesses plus
 the Phase 3 table. The rules-only baseline column is mandatory.
+
+![Phase 3 concordance table](demo/out/acmg-triage-05-results.gif)
+
+[Full demo video (mp4)](demo/out/acmg-triage-demo.mp4) — title, problem,
+shots, conflict refusal, eval table. Selectable captions live in
+`demo/script/captions/`.
 
 ## Layout
 

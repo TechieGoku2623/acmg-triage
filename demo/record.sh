@@ -1,69 +1,25 @@
 #!/usr/bin/env bash
-# Write asciinema v2 JSONL casts from real command output. No credentials.
+# Regenerates every cast from demo/script/shots.yaml.
+# Terminal geometry, prompt, locale, and environment are pinned here so
+# every recording matches.
 set -euo pipefail
-export PATH="${HOME}/.local/bin:${PATH}"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
-mkdir -p demo
+mkdir -p demo/cast demo/script/captions demo/.tmp/home
 
-python3 - <<'PY'
-from __future__ import annotations
+export PATH="${ROOT}/.venv/bin:${HOME}/.local/bin:${PATH}"
+export TERM=xterm-256color
+export LANG=C.UTF-8
+export LC_ALL=C.UTF-8
+export COLUMNS=100
+export LINES=30
+export PS1='$ '
+unset NO_COLOR
+# Drop credential-bearing variables so a leaked env cannot appear in a frame.
+while IFS= read -r name; do
+  unset "${name}" || true
+done < <(env | awk -F= '
+  toupper($1) ~ /(KEY|TOKEN|SECRET|PASSWORD|CREDENTIAL|AWS_|OPENAI|ANTHROPIC|GEMINI)/ { print $1 }
+')
 
-import json
-import subprocess
-import time
-from pathlib import Path
-
-ROOT = Path(".").resolve()
-CASTS = {
-    "demo/01-classify-pathogenic.cast": [
-        ["uv", "run", "acmg", "classify", "--hgvs", "NM_000059.4:c.5946del", "--explain"],
-    ],
-    "demo/02-conflict-and-refusal.cast": [
-        ["uv", "run", "acmg", "classify", "--hgvs", "NM_000059.4:c.2311G>A", "--explain"],
-        ["uv", "run", "acmg", "classify", "--hgvs", "NM_001005237.2:c.200A>G"],
-    ],
-    "demo/03-evaluation.cast": [
-        ["make", "eval"],
-    ],
-}
-
-
-def run(cmd: list[str]) -> str:
-    env = dict(**{k: v for k, v in __import__("os").environ.items()})
-    env["PATH"] = str(Path.home() / ".local" / "bin") + ":" + env.get("PATH", "")
-    proc = subprocess.run(
-        cmd,
-        cwd=ROOT,
-        capture_output=True,
-        text=True,
-        check=False,
-        env=env,
-    )
-    body = proc.stdout + (proc.stderr if proc.returncode else "")
-    if not body.endswith("\n"):
-        body += "\n"
-    return f"$ {' '.join(cmd)}\n{body}"
-
-
-def write_cast(path: Path, chunks: list[str]) -> None:
-    header = {
-        "version": 2,
-        "width": 120,
-        "height": 40,
-        "timestamp": int(time.time()),
-        "env": {"SHELL": "/bin/bash", "TERM": "xterm-256color"},
-    }
-    t = 0.05
-    lines = [json.dumps(header, separators=(",", ":"))]
-    for chunk in chunks:
-        for part in chunk.splitlines(keepends=True):
-            lines.append(json.dumps([round(t, 4), "o", part], separators=(",", ":")))
-            t += 0.03
-    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-
-
-for dest, commands in CASTS.items():
-    write_cast(ROOT / dest, [run(cmd) for cmd in commands])
-    print(f"wrote {dest}")
-PY
+uv run --with pyyaml python demo/lib/record_all.py
