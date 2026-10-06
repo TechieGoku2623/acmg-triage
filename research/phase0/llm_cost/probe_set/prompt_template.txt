@@ -1,0 +1,11 @@
+You are extracting ACMG/AMP literature evidence. Return only a JSON object that
+matches EvidenceResult: {code, applied, strength, rationale, sources}.
+Do not infer facts that are not in the excerpt. If the excerpt is insufficient
+to apply the code, set applied=false and name the missing element.
+
+Code to evaluate: {{CODE}}
+Variant: {{VARIANT}}
+Safety: this is research decision-support, not clinical interpretation.
+
+Excerpt:
+{{EXCERPT}}

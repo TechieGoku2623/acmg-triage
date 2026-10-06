@@ -1,0 +1,77 @@
+{
+  "note": "Synthetic literature excerpts written for this harness. They are not copied from copyrighted papers. Each is long enough to exercise a literature-node prompt.",
+  "excerpts": [
+    {
+      "id": "PS3-01",
+      "node": "PS3",
+      "variant": "NM_000059.4:c.8009C>T",
+      "text": "A published functional study transfected BRCA2 c.8009C>T into a homology-directed repair reporter line. HDR efficiency fell to 8% of wild-type across three biological replicates (p<0.001). Protein abundance by Western blot was unchanged. The assay used a calibrated benign and pathogenic control set of 12 variants. The authors conclude a damaging effect on double-strand break repair."
+    },
+    {
+      "id": "PS3-02",
+      "node": "PS3",
+      "variant": "NM_000257.4:c.2167C>T",
+      "text": "MYH7 p.Arg723Cys was studied in an in vitro motility assay. Actin sliding velocity was 42% of wild-type. Calcium sensitivity of force generation shifted by 0.3 pCa units. The paper reports these values as consistent with a hypertrophic cardiomyopathy mechanism. No mouse model is described."
+    },
+    {
+      "id": "PS3-03",
+      "node": "PS3",
+      "variant": "NM_007294.4:c.5266dupC",
+      "text": "A saturation genome editing experiment in haploid cells scored BRCA1 c.5266dupC as a loss-of-function allele with a function score of -3.1, below the calibrated pathogenic threshold of -1.0. The experiment included synonymous and known-benign controls on the same exon."
+    },
+    {
+      "id": "BS3-01",
+      "node": "BS3",
+      "variant": "NM_000059.4:c.2311G>A",
+      "text": "BRCA2 p.Val771Ile was tested in an HDR reporter and a splicing minigene. HDR efficiency was 96% of wild-type. The minigene produced only the canonical transcript. Calibrated benign controls scored 90-110% HDR. The authors report no damaging effect in either assay."
+    },
+    {
+      "id": "BS3-02",
+      "node": "BS3",
+      "variant": "NM_000249.4:c.1852A>G",
+      "text": "MLH1 p.Lys618Glu was evaluated with an in vitro mismatch-repair assay. Repair efficiency was 102% of wild-type. Nuclear localization was intact. The paper states the assay has been validated against 30 classified missense variants."
+    },
+    {
+      "id": "PP4-01",
+      "node": "PP4",
+      "variant": "NM_000548.5:c.2714G>A",
+      "text": "The patient presented with infantile spasms, hypopigmented macules, and a retinal hamartoma. Brain MRI showed subependymal nodules. The phenotype is highly specific for TSC2-related tuberous sclerosis complex. No second-locus variant was reported. Family history is negative."
+    },
+    {
+      "id": "PP4-02",
+      "node": "PP4",
+      "variant": "NM_000257.4:c.1988G>A",
+      "text": "A 24-year-old with maximal left-ventricular wall thickness of 28 mm, systolic anterior motion of the mitral valve, and a family history of sudden death meets diagnostic criteria for hypertrophic cardiomyopathy. MYH7 is one of several sarcomere genes that cause this phenotype. The presentation is not specific to a single gene."
+    },
+    {
+      "id": "PP4-03",
+      "node": "PP4",
+      "variant": "NM_000492.4:c.1521_1523del",
+      "text": "A newborn with meconium ileus, sweat chloride 98 mmol/L, and pancreatic insufficiency has a phenotype specific for cystic fibrosis. CFTR is the only gene that causes classic CF. Both alleles were sequenced."
+    },
+    {
+      "id": "PS3-04",
+      "node": "PS3",
+      "variant": "NM_000314.8:c.389G>A",
+      "text": "PTEN p.Arg130Gln showed loss of lipid phosphatase activity in a PIP3 hydrolysis assay (remaining activity 4%). AKT phosphorylation increased 3.2-fold. The assay panel matches the ClinGen PTEN VCEP recommended functional criteria for PS3."
+    },
+    {
+      "id": "BS3-03",
+      "node": "BS3",
+      "variant": "NM_000059.4:c.1114A>C",
+      "text": "BRCA2 p.Asn372His, a common polymorphism, scored within the benign range of an HDR assay (99% of wild-type) and had no splice effect on RNA-seq from carrier lymphocytes. This excerpt exists to measure tokens on a true-negative functional study."
+    },
+    {
+      "id": "PP4-04",
+      "node": "PP4",
+      "variant": "NM_001005237.2:c.200A>G",
+      "text": "The clinical note lists intermittent headache and non-specific fatigue. No dysmorphic features, no organ-system pattern, and no biochemical signature are described. The phenotype is not specific for any single-gene disorder."
+    },
+    {
+      "id": "PS3-05",
+      "node": "PS3",
+      "variant": "NM_000059.4:c.7008A>G",
+      "text": "A conference abstract reports 'reduced function' for BRCA2 c.7008A>G without naming the assay, the control set, the numeric result, or the replicate count. Under a strict PS3 rubric this text is insufficient to apply the code."
+    }
+  ]
+}

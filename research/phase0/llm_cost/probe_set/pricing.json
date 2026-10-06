@@ -1,0 +1,38 @@
+{
+  "retrieved": "2026-10-06",
+  "note": "Public list prices committed so cost figures are reproducible. Re-fetch before a production budget. Provider RTT latency is unmeasured.",
+  "tokenizer": "tiktoken cl100k_base for every row, so the comparison isolates price.",
+  "assumed_output_tokens": 400,
+  "models": [
+    {
+      "id": "gpt-4o-mini",
+      "provider": "OpenAI",
+      "input_usd_per_mtok": 0.15,
+      "output_usd_per_mtok": 0.6
+    },
+    {
+      "id": "gpt-4o",
+      "provider": "OpenAI",
+      "input_usd_per_mtok": 2.5,
+      "output_usd_per_mtok": 10.0
+    },
+    {
+      "id": "claude-haiku-4-5",
+      "provider": "Anthropic",
+      "input_usd_per_mtok": 1.0,
+      "output_usd_per_mtok": 5.0
+    },
+    {
+      "id": "claude-sonnet-4-5",
+      "provider": "Anthropic",
+      "input_usd_per_mtok": 3.0,
+      "output_usd_per_mtok": 15.0
+    },
+    {
+      "id": "gemini-2.0-flash",
+      "provider": "Google",
+      "input_usd_per_mtok": 0.1,
+      "output_usd_per_mtok": 0.4
+    }
+  ]
+}

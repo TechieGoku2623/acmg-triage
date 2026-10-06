@@ -1,0 +1,6 @@
+cff-version: 1.2.0
+title: acmg-triage
+message: Research tool. Not clinical interpretation.
+type: software
+license: MIT
+version: 0.1.0
