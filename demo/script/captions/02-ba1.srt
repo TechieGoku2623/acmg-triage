@@ -1,0 +1,4 @@
+1
+00:00:04,640 --> 00:00:09,641
+BA1 fires alone and terminates the chain
+no LLM calls spent

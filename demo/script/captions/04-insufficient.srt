@@ -1,0 +1,4 @@
+1
+00:00:03,973 --> 00:00:09,474
+No ClinVar or ClinGen coverage returns
+insufficient evidence, not a guess

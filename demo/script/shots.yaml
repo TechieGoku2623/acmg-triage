@@ -8,30 +8,30 @@ shots:
   - id: 01-pathogenic
     command: acmg classify --hgvs "NM_000059.4:c.5946del" --summary
     caption: Each criterion carries its strength, rationale, and source
-    hold: 4.0
+    hold: 6.0
     highlight: "Evidence|PVS1|PM2"
     failure_beat: false
   - id: 02-ba1
     command: acmg classify --hgvs "NM_000059.4:c.1114A>C" --summary
     caption: "BA1 fires alone and terminates the chain\nno LLM calls spent"
-    hold: 3.0
+    hold: 5.0
     highlight: "skipped:"
     failure_beat: false
   - id: 03-conflict
     command: acmg classify --hgvs "NM_000059.4:c.2311G>A" --summary
     caption: Evidence points both ways — the conflict is the output
-    hold: 4.0
+    hold: 7.0
     highlight: "CONFLICTING EVIDENCE"
     failure_beat: true
   - id: 04-insufficient
     command: acmg classify --hgvs "NM_001005237.2:c.200A>G"
     caption: "No ClinVar or ClinGen coverage returns\ninsufficient evidence, not a guess"
-    hold: 3.5
+    hold: 5.5
     failure_beat: false
 results:
   command: acmg eval --summary
   caption: Concordance with expert panels, against the rules-only baseline
-  hold: 4.0
+  hold: 8.0
 end_card:
   url: github.com/techiegoku2623/acmg-triage
   license: MIT

@@ -259,8 +259,14 @@ def eval_cmd(
     out.print("[bold]acmg-triage eval[/bold]  n=100 committed probe variants")
     out.print()
     out.print(f"{'System':<34} {'Conc.':>6} {'n':>4}  Notes")
+    short_notes = {
+        "Rules-only baseline (Phase 0)": "2015 computational codes + table",
+        "Frequency-threshold-only": "BA1/BS1/PM2 only",
+        "Full system (LLM on)": "typed graph, literature cache-only",
+        "Full system (LLM off)": "must equal rules-only",
+    }
     for system, conc, n, notes in rows:
-        note = notes if len(notes) <= 48 else notes[:47] + "…"
+        note = short_notes.get(system, notes)
         out.print(f"{system:<34} {conc:>6} {n:>4}  {note}")
     out.print()
     out.print(str(payload["decision"]))

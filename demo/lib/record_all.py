@@ -29,7 +29,7 @@ def main() -> None:
         shot_id = str(shot["id"])
         command = str(shot["command"])
         hold = float(shot.get("hold", 3.0))
-        extra = 3.0 if shot.get("failure_beat") else 0.0
+        extra = 6.0 if shot.get("failure_beat") else 0.0
         write_shot_script(script_dir / f"{shot_id}.sh", command)
         meta = record_command(
             command,

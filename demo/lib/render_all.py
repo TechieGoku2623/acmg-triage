@@ -28,8 +28,8 @@ from demo.lib.shots import (  # noqa: E402
 )
 
 TITLE_S = 8.0
-PROBLEM_S = 12.0
-END_S = 8.0
+PROBLEM_S = 16.0
+END_S = 12.0
 WIDTH = 1280
 HEIGHT = 720
 FPS = 15
@@ -81,10 +81,18 @@ def agg_gif(cast: Path, dest: Path) -> None:
         which("agg"),
         "--font-size",
         "18",
-        "--fps",
+        "--fps-cap",
         str(FPS),
+        "--cols",
+        "100",
+        "--rows",
+        "30",
         "--theme",
         "monokai",
+        "--idle-time-limit",
+        "30",
+        "--last-frame-duration",
+        "0.2",
         str(cast),
         str(dest),
     ]
@@ -93,29 +101,32 @@ def agg_gif(cast: Path, dest: Path) -> None:
 
 def maybe_svg(cast: Path, dest: Path) -> None:
     svg_term = shutil.which("svg-term")
-    if not svg_term:
+    cmd: list[str] | None
+    if svg_term:
+        cmd = [svg_term, "--in", str(cast), "--out", str(dest), "--window"]
+    else:
         npx = shutil.which("npx")
         if not npx:
             print("svg-term not installed; skipping SVG stills", flush=True)
             return
-        run(
-            [
-                npx,
-                "--yes",
-                "svg-term-cli",
-                "--cast",
-                str(cast),
-                "--out",
-                str(dest),
-                "--width",
-                "100",
-                "--height",
-                "30",
-                "--window",
-            ]
-        )
-        return
-    run([svg_term, "--cast", str(cast), "--out", str(dest), "--window"])
+        cmd = [
+            npx,
+            "--yes",
+            "svg-term-cli",
+            "--in",
+            str(cast),
+            "--out",
+            str(dest),
+            "--width",
+            "100",
+            "--height",
+            "30",
+            "--window",
+        ]
+    try:
+        run(cmd)
+    except subprocess.CalledProcessError as exc:
+        print(f"svg-term skipped ({exc.returncode}); PNG stills still written", flush=True)
 
 
 def gif_to_captioned_mp4(gif: Path, caption_png: Path, dest: Path) -> None:
@@ -164,8 +175,8 @@ def last_frame(src: Path, dest: Path) -> None:
     )
 
 
-def concat_mp4(parts: list[Path], dest: Path) -> None:
-    listing = dest.with_suffix(".concat.txt")
+def concat_mp4(parts: list[Path], dest: Path, listing: Path) -> None:
+    listing.parent.mkdir(parents=True, exist_ok=True)
     listing.write_text("".join(f"file '{p.resolve()}'\n" for p in parts), encoding="utf-8")
     run(
         [
@@ -186,23 +197,59 @@ def concat_mp4(parts: list[Path], dest: Path) -> None:
     )
 
 
-def clip_gif(src: Path, dest: Path, seconds: float) -> None:
-    run(
-        [
-            ffmpeg(),
-            "-y",
-            "-i",
-            str(src),
-            "-t",
-            f"{seconds:.2f}",
-            "-vf",
-            "fps=12,scale=960:-1:flags=lanczos",
-            "-loop",
-            "0",
-            str(dest),
-        ],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
+def still_gif(png: Path, dest: Path, seconds: float) -> None:
+    """Loop a still as a small gif. ffmpeg's native gif encoder is too large."""
+
+    from PIL import Image
+
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    frame = Image.open(png)
+    if frame.width > 960:
+        height = int(960 * frame.height / frame.width)
+        frame = frame.resize((960, height), Image.Resampling.LANCZOS)
+    frame = frame.convert("P", palette=Image.Palette.ADAPTIVE, colors=64)
+    n = max(2, int(seconds * 2))
+    frame.save(
+        dest,
+        save_all=True,
+        append_images=[frame] * (n - 1),
+        duration=500,
+        loop=0,
+        optimize=True,
+    )
+
+
+def pad_gif(src: Path, dest: Path, seconds: float) -> None:
+    """Keep the animated beat, then hold the last frame out to ``seconds``."""
+
+    from PIL import Image
+
+    im = Image.open(src)
+    frames: list[Image.Image] = []
+    durations: list[int] = []
+    while True:
+        frames.append(im.convert("P", palette=Image.Palette.ADAPTIVE, colors=64))
+        durations.append(int(im.info.get("duration", 80)))
+        try:
+            im.seek(im.tell() + 1)
+        except EOFError:
+            break
+    if not frames:
+        raise SystemExit(f"empty gif: {src}")
+    total_ms = sum(durations)
+    remain = int(seconds * 1000) - total_ms
+    if remain > 0:
+        n = max(1, remain // 500)
+        frames.extend([frames[-1]] * n)
+        durations.extend([500] * n)
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    frames[0].save(
+        dest,
+        save_all=True,
+        append_images=frames[1:],
+        duration=durations,
+        loop=0,
+        optimize=True,
     )
 
 
@@ -258,43 +305,32 @@ def main() -> None:
         agg_gif(cast, gif)
         maybe_svg(cast, svg)
         gif_to_captioned_mp4(gif, cap, mp4)
-        last_frame(mp4, frames / f"{shot_id}.png")
+        last_png = frames / f"{shot_id}.png"
+        last_frame(mp4, last_png)
         parts.append(mp4)
+        hold = float(shot.get("hold", 3.0))
+        if shot.get("failure_beat"):
+            hold += 6.0
+        hold_mp4 = tmp / f"{shot_id}-hold.mp4"
+        still_to_mp4(last_png, hold_mp4, hold)
+        parts.append(hold_mp4)
         size = gif.stat().st_size
-        print(f"{gif.name}  {size / 1024:.0f} KiB", flush=True)
+        print(f"{gif.name}  {size / 1024:.0f} KiB  + {hold:.1f}s hold", flush=True)
         if size > 1_000_000:
-            # Re-encode smaller rather than drop quality below readable.
-            clip_gif(gif, gif, min(12.0, probe_duration(mp4) or 12.0))
-            print(f"re-encoded {gif.name} -> {gif.stat().st_size / 1024:.0f} KiB", flush=True)
+            print(
+                f"WARNING: {gif.name} is {size / 1_000_000:.2f} MB (budget 1 MB)",
+                flush=True,
+            )
 
     full = out / f"{slug}-demo.mp4"
-    concat_mp4(parts + [tmp / "end.mp4"], full)
+    concat_mp4(parts + [tmp / "end.mp4"], full, tmp / "demo.concat.txt")
     header = out / f"{slug}-demo.gif"
-    src_gif = out / f"{slug}-{beat}.gif"
-    clip_gif(src_gif, header, 12.0)
-    if header.stat().st_size > 2_000_000:
-        run(
-            [
-                ffmpeg(),
-                "-y",
-                "-i",
-                str(src_gif),
-                "-t",
-                "10",
-                "-vf",
-                "fps=10,scale=800:-1:flags=lanczos",
-                "-loop",
-                "0",
-                str(header),
-            ],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-        )
+    pad_gif(out / f"{slug}-{beat}.gif", header, 12.0)
 
     runtime = TITLE_S + PROBLEM_S + END_S
     for shot in all_commands(data):
-        mp4 = tmp / f"{shot['id']}.mp4"
-        runtime += probe_duration(mp4)
+        runtime += probe_duration(tmp / f"{shot['id']}.mp4")
+        runtime += probe_duration(tmp / f"{shot['id']}-hold.mp4")
 
     manifest = {
         "runtime_s": round(runtime, 1),

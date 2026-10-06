@@ -179,8 +179,13 @@ def record_command(
         chunk = _highlight(scrub_text(chunk), highlight)
         t = typed_at + max(0.0, rel - base)
         events.append((t, chunk))
-    t += max(hold, 2.5) + extra_hold
-    events.append((t, ""))
+    hold_end = t + max(hold, 2.5) + extra_hold
+    # agg collapses long idle gaps; keep the clock alive every 350ms.
+    while t + 0.35 < hold_end:
+        t += 0.35
+        events.append((t, "\x1b[?25h"))
+    t = hold_end
+    events.append((t, "\x1b[0m"))
 
     header = {
         "version": 2,
@@ -191,8 +196,6 @@ def record_command(
     }
     lines = [json.dumps(header, separators=(",", ":"))]
     for ts, payload in events:
-        if payload == "":
-            continue
         lines.append(json.dumps([round(ts, 4), "o", payload], separators=(",", ":")))
     dest.write_text("\n".join(lines) + "\n", encoding="utf-8")
     assert_clean(dest)

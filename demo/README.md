@@ -52,7 +52,9 @@ Terminal enforced by `record.sh`:
 - `$HOME` remapped under `demo/.tmp/home` so paths cannot leak
 
 Typing is simulated at 12 characters per second. Command latency is the real
-runtime of the CLI against committed sample data.
+runtime of the CLI against committed sample data. Hold time from shots.yaml
+is applied at render (a still of the last frame) because agg collapses long
+idle gaps in the cast.
 
 Every `.cast` is grepped for `/Users/`, `/home/`, `@`, and key-like tokens
 before it is written.
