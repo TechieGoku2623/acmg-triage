@@ -1,0 +1,129 @@
+{
+  "codes": {
+    "BA1": {
+      "decision": "needs VCEP overlay",
+      "f1": 0.5714285714285715,
+      "fn": 12,
+      "fp": 0,
+      "gold_positive": 20,
+      "precision": 1.0,
+      "recall": 0.4,
+      "ship_default_only": false,
+      "strength_match": 8,
+      "strength_mismatch": 0,
+      "tn": 80,
+      "tp": 8
+    },
+    "BP4": {
+      "decision": "default-only",
+      "f1": 1.0,
+      "fn": 0,
+      "fp": 0,
+      "gold_positive": 28,
+      "precision": 1.0,
+      "recall": 1.0,
+      "ship_default_only": true,
+      "strength_match": 28,
+      "strength_mismatch": 0,
+      "tn": 72,
+      "tp": 28
+    },
+    "BP7": {
+      "decision": "unmeasured (no gold positives)",
+      "f1": 0.0,
+      "fn": 0,
+      "fp": 0,
+      "gold_positive": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "ship_default_only": false,
+      "strength_match": 0,
+      "strength_mismatch": 0,
+      "tn": 100,
+      "tp": 0
+    },
+    "BS1": {
+      "decision": "needs VCEP overlay",
+      "f1": 0.0,
+      "fn": 10,
+      "fp": 7,
+      "gold_positive": 10,
+      "precision": 0.0,
+      "recall": 0.0,
+      "ship_default_only": false,
+      "strength_match": 0,
+      "strength_mismatch": 0,
+      "tn": 83,
+      "tp": 0
+    },
+    "PM2": {
+      "decision": "needs VCEP overlay",
+      "f1": 0.923076923076923,
+      "fn": 0,
+      "fp": 10,
+      "gold_positive": 60,
+      "precision": 0.8571428571428571,
+      "recall": 1.0,
+      "ship_default_only": false,
+      "strength_match": 0,
+      "strength_mismatch": 60,
+      "tn": 30,
+      "tp": 60
+    },
+    "PM4": {
+      "decision": "unmeasured (no gold positives)",
+      "f1": 0.0,
+      "fn": 0,
+      "fp": 0,
+      "gold_positive": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "ship_default_only": false,
+      "strength_match": 0,
+      "strength_mismatch": 0,
+      "tn": 100,
+      "tp": 0
+    },
+    "PP3": {
+      "decision": "needs VCEP overlay",
+      "f1": 0.7272727272727273,
+      "fn": 6,
+      "fp": 0,
+      "gold_positive": 14,
+      "precision": 1.0,
+      "recall": 0.5714285714285714,
+      "ship_default_only": false,
+      "strength_match": 8,
+      "strength_mismatch": 0,
+      "tn": 86,
+      "tp": 8
+    },
+    "PVS1": {
+      "decision": "needs VCEP overlay",
+      "f1": 1.0,
+      "fn": 0,
+      "fp": 0,
+      "gold_positive": 18,
+      "precision": 1.0,
+      "recall": 1.0,
+      "ship_default_only": false,
+      "strength_match": 10,
+      "strength_mismatch": 8,
+      "tn": 82,
+      "tp": 18
+    }
+  },
+  "decision_rule": "ship default-only if F1>=0.90 and zero strength mismatches",
+  "gold_source": "Committed probe set. Gold follows ENIGMA v1.2.0 frequency cutoffs, ClinGen SVI PM2-as-supporting, and Abou Tayoun 2018 last-exon PVS1 cap. Not a live ClinGen Evidence Repository dump.",
+  "n_variants": 100,
+  "needs_vcep_overlay": [
+    "PVS1",
+    "PM2",
+    "PP3",
+    "BA1",
+    "BS1"
+  ],
+  "ship_default_only": [
+    "BP4"
+  ]
+}

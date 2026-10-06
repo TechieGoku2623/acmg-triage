@@ -1,0 +1,66 @@
+[project]
+name = "acmg-triage"
+version = "0.1.0"
+description = "Agentic ACMG/AMP classification of variants of uncertain significance with an auditable evidence trail."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+authors = [{ name = "acmg-triage contributors" }]
+dependencies = [
+  "pydantic>=2.10",
+  "structlog>=24.4",
+  "typer>=0.15",
+  "rich>=13.9",
+  "duckdb>=1.1",
+  "tiktoken>=0.8",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3",
+  "pytest-cov>=6.0",
+  "ruff>=0.8",
+  "mypy>=1.13",
+]
+
+[project.scripts]
+acmg = "acmg_triage.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/acmg_triage"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+mypy_path = "src"
+packages = ["acmg_triage"]
+explicit_package_bases = true
+
+[[tool.mypy.overrides]]
+module = ["research.*", "tests.*"]
+follow_imports = "silent"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=acmg_triage --cov-report=term-missing --cov-fail-under=80"
+
+[tool.coverage.run]
+source = ["src/acmg_triage"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "if TYPE_CHECKING:",
+]

@@ -1,0 +1,102 @@
+{
+  "catalog_codes": [
+    "PS1",
+    "PM1",
+    "PM5",
+    "PP2",
+    "PP5",
+    "BS2",
+    "BP1",
+    "BP3",
+    "BP6"
+  ],
+  "confusion": {
+    "Benign": {
+      "Benign": 8,
+      "Conflicting": 0,
+      "Likely benign": 7,
+      "Likely pathogenic": 0,
+      "Pathogenic": 0,
+      "Uncertain significance": 5
+    },
+    "Conflicting": {
+      "Benign": 0,
+      "Conflicting": 8,
+      "Likely benign": 0,
+      "Likely pathogenic": 0,
+      "Pathogenic": 0,
+      "Uncertain significance": 3
+    },
+    "Likely benign": {
+      "Benign": 0,
+      "Conflicting": 0,
+      "Likely benign": 0,
+      "Likely pathogenic": 0,
+      "Pathogenic": 0,
+      "Uncertain significance": 0
+    },
+    "Likely pathogenic": {
+      "Benign": 0,
+      "Conflicting": 0,
+      "Likely benign": 0,
+      "Likely pathogenic": 0,
+      "Pathogenic": 0,
+      "Uncertain significance": 0
+    },
+    "Pathogenic": {
+      "Benign": 0,
+      "Conflicting": 0,
+      "Likely benign": 0,
+      "Likely pathogenic": 0,
+      "Pathogenic": 0,
+      "Uncertain significance": 0
+    },
+    "Uncertain significance": {
+      "Benign": 0,
+      "Conflicting": 0,
+      "Likely benign": 0,
+      "Likely pathogenic": 18,
+      "Pathogenic": 0,
+      "Uncertain significance": 51
+    }
+  },
+  "decision": "Rules-only is the published baseline. Phase 3 must beat this concordance (0.670) with literature nodes enabled, and must report the disabled-LLM score as this number.",
+  "gold_class_counts": {
+    "Benign": 20,
+    "Conflicting": 11,
+    "Uncertain significance": 69
+  },
+  "literature_codes": [
+    "PS2",
+    "PS3",
+    "PS4",
+    "PM3",
+    "PM6",
+    "PP1",
+    "PP4",
+    "BS3",
+    "BS4",
+    "BP2",
+    "BP5"
+  ],
+  "n_catalog": 9,
+  "n_codes": 28,
+  "n_correct": 67,
+  "n_literature_llm": 11,
+  "n_predicted_codes_mean": 1.39,
+  "n_rules": 8,
+  "n_variants": 100,
+  "rules_codes": [
+    "PVS1",
+    "PM2",
+    "PM4",
+    "PP3",
+    "BA1",
+    "BS1",
+    "BP4",
+    "BP7"
+  ],
+  "rules_fraction": 0.2857142857142857,
+  "rules_only_concordance": 0.67,
+  "zero_llm_fraction": 0.6071428571428571
+}

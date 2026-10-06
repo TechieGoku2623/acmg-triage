@@ -1,0 +1,72 @@
+{
+  "api_round_trip_latency": "unmeasured",
+  "api_round_trip_latency_measurement": "A live call of the same 12 prompts to each provider, recording p50/p95 RTT. Not run because this harness must work without keys.",
+  "assumed_output_tokens_per_node": 400,
+  "decision": "Default literature model: gemini-2.0-flash ($0.000528/variant). Escalate to a larger tier only when the small-model cache miss fails structured-output validation.",
+  "local_ms_per_excerpt": 0.56728100000214,
+  "local_render_and_tokenize_seconds": 0.00680737200002568,
+  "models": [
+    {
+      "id": "gpt-4o-mini",
+      "input_tokens_per_variant_3_nodes": 480.75,
+      "input_usd_per_mtok": 0.15,
+      "mean_input_tokens_per_prompt": 160.25,
+      "output_usd_per_mtok": 0.6,
+      "usd_per_10k_variants": 7.921124999999999,
+      "usd_per_variant": 0.0007921124999999999
+    },
+    {
+      "id": "gpt-4o",
+      "input_tokens_per_variant_3_nodes": 480.75,
+      "input_usd_per_mtok": 2.5,
+      "mean_input_tokens_per_prompt": 160.25,
+      "output_usd_per_mtok": 10.0,
+      "usd_per_10k_variants": 132.01874999999998,
+      "usd_per_variant": 0.013201874999999998
+    },
+    {
+      "id": "claude-haiku-4-5",
+      "input_tokens_per_variant_3_nodes": 480.75,
+      "input_usd_per_mtok": 1.0,
+      "mean_input_tokens_per_prompt": 160.25,
+      "output_usd_per_mtok": 5.0,
+      "usd_per_10k_variants": 64.80749999999999,
+      "usd_per_variant": 0.0064807499999999995
+    },
+    {
+      "id": "claude-sonnet-4-5",
+      "input_tokens_per_variant_3_nodes": 480.75,
+      "input_usd_per_mtok": 3.0,
+      "mean_input_tokens_per_prompt": 160.25,
+      "output_usd_per_mtok": 15.0,
+      "usd_per_10k_variants": 194.42249999999999,
+      "usd_per_variant": 0.019442249999999998
+    },
+    {
+      "id": "gemini-2.0-flash",
+      "input_tokens_per_variant_3_nodes": 480.75,
+      "input_usd_per_mtok": 0.1,
+      "mean_input_tokens_per_prompt": 160.25,
+      "output_usd_per_mtok": 0.4,
+      "usd_per_10k_variants": 5.280749999999999,
+      "usd_per_variant": 0.0005280749999999999
+    }
+  ],
+  "n_excerpts": 12,
+  "nodes_per_variant": 3,
+  "per_excerpt_input_tokens": [
+    183,
+    167,
+    162,
+    164,
+    151,
+    164,
+    171,
+    151,
+    159,
+    157,
+    141,
+    153
+  ],
+  "tokenizer": "tiktoken cl100k_base"
+}
