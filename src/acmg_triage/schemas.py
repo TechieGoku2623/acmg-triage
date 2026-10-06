@@ -1,4 +1,4 @@
-"""Data contracts for Phase 0 probe records and evidence calls."""
+"""Data contracts for probe records, evidence calls, and classification trails."""
 
 from __future__ import annotations
 
@@ -83,3 +83,77 @@ class SampleVariant(BaseModel):
     why_present: str
     expected_behavior: str
     features: ProbeVariant
+
+
+class NodeTrace(BaseModel):
+    """One graph node execution record."""
+
+    node: str
+    code: str | None = None
+    applied: bool | None = None
+    skipped: bool = False
+    rationale: str
+    latency_ms: float = 0.0
+    cost_usd: float = 0.0
+    sources: list[str] = Field(default_factory=list)
+
+
+class OverlayDiff(BaseModel):
+    """Default 2015 call versus gene-specific VCEP overlay for one code."""
+
+    code: str
+    default_applied: bool
+    overlay_applied: bool
+    default_strength: Strength | None = None
+    overlay_strength: Strength | None = None
+    default_rationale: str
+    overlay_rationale: str
+
+
+class DecisionTrace(BaseModel):
+    """Persisted classification trail. Inputs, codes, rationale, cost, latency."""
+
+    hgvs: str
+    gene: str
+    sample_id: str | None = None
+    inputs: dict[str, object] = Field(default_factory=dict)
+    catalog_covered: bool
+    insufficient_evidence: bool = False
+    classification: Classification | None = None
+    default_classification: Classification | None = None
+    overlay_classification: Classification | None = None
+    conflicting: bool = False
+    short_circuited_ba1: bool = False
+    applied_codes: list[str] = Field(default_factory=list)
+    skipped_codes: list[str] = Field(default_factory=list)
+    calls: list[EvidenceCall] = Field(default_factory=list)
+    overlay_diffs: list[OverlayDiff] = Field(default_factory=list)
+    nodes: list[NodeTrace] = Field(default_factory=list)
+    cost_usd: float = 0.0
+    latency_ms: float = 0.0
+    disclaimer: str
+
+
+class ClassificationResult(BaseModel):
+    """Public classify payload: full trail plus the safety disclaimer."""
+
+    hgvs: str
+    gene: str
+    sample_id: str | None = None
+    classification: Classification | None = None
+    default_classification: Classification | None = None
+    overlay_classification: Classification | None = None
+    insufficient_evidence: bool = False
+    conflicting: bool = False
+    short_circuited_ba1: bool = False
+    matched_rule: str | None = None
+    applied_codes: list[str] = Field(default_factory=list)
+    skipped_codes: list[str] = Field(default_factory=list)
+    calls: list[EvidenceCall] = Field(default_factory=list)
+    overlay_diffs: list[OverlayDiff] = Field(default_factory=list)
+    nodes: list[NodeTrace] = Field(default_factory=list)
+    cost_usd: float = 0.0
+    latency_ms: float = 0.0
+    confidence: float = 0.0
+    disclaimer: str
+    trace: DecisionTrace

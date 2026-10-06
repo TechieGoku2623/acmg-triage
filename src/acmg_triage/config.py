@@ -20,6 +20,22 @@ class Settings(BaseModel):
     def research_dir(self) -> Path:
         return self.repo_root / "research" / "phase0"
 
+    @property
+    def catalog_path(self) -> Path:
+        return self.sample_dir / "catalog.json"
+
+    @property
+    def literature_cache_path(self) -> Path:
+        return self.sample_dir / "literature_cache.json"
+
+    @property
+    def traces_dir(self) -> Path:
+        return self.repo_root / "var" / "traces"
+
+    @property
+    def probe_set_path(self) -> Path:
+        return self.research_dir / "criterion_agreement" / "probe_set" / "variants.json"
+
 
 def get_settings() -> Settings:
     return Settings()

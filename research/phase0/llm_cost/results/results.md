@@ -1,6 +1,6 @@
 # llm_cost results
 
-n excerpts = 12. Local render+tokenize = 6.81 ms total. API RTT = unmeasured.
+n excerpts = 12. Local render+tokenize = 9.91 ms total. API RTT = unmeasured.
 
 Default literature model: gemini-2.0-flash ($0.000528/variant). Escalate to a larger tier only when the small-model cache miss fails structured-output validation.
 

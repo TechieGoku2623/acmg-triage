@@ -3,8 +3,8 @@
   "api_round_trip_latency_measurement": "A live call of the same 12 prompts to each provider, recording p50/p95 RTT. Not run because this harness must work without keys.",
   "assumed_output_tokens_per_node": 400,
   "decision": "Default literature model: gemini-2.0-flash ($0.000528/variant). Escalate to a larger tier only when the small-model cache miss fails structured-output validation.",
-  "local_ms_per_excerpt": 0.56728100000214,
-  "local_render_and_tokenize_seconds": 0.00680737200002568,
+  "local_ms_per_excerpt": 0.8259904166910322,
+  "local_render_and_tokenize_seconds": 0.009911885000292386,
   "models": [
     {
       "id": "gpt-4o-mini",

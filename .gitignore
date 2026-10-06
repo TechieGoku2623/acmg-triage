@@ -17,3 +17,4 @@ data/*
 *.parquet
 *.duckdb
 .ipynb_checkpoints/
+var/

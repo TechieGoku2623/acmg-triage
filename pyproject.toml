@@ -13,6 +13,7 @@ dependencies = [
   "rich>=13.9",
   "duckdb>=1.1",
   "tiktoken>=0.8",
+  "fastapi>=0.115",
 ]
 
 [project.optional-dependencies]
@@ -21,6 +22,7 @@ dev = [
   "pytest-cov>=6.0",
   "ruff>=0.8",
   "mypy>=1.13",
+  "httpx>=0.27",
 ]
 
 [project.scripts]
@@ -50,6 +52,10 @@ explicit_package_bases = true
 [[tool.mypy.overrides]]
 module = ["research.*", "tests.*"]
 follow_imports = "silent"
+
+[[tool.mypy.overrides]]
+module = ["fastapi.*"]
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -102,7 +102,7 @@ Decision: **Default literature model: gemini-2.0-flash ($0.000528/variant). Esca
 
 API round-trip latency: **unmeasured**. The measurement that would settle it
 is a live call of the same 12 prompts to each provider, recording p50/p95
-RTT. Local render+tokenize was 6.81 ms total.
+RTT. Local render+tokenize was 9.91 ms total.
 
 ### 4.2 Combining table representation
 
@@ -213,7 +213,7 @@ center. Numbers:
 - Mean input tokens / literature prompt: 160.2
 - Input tokens / variant (3 nodes): 480.8
 - Cheapest / variant: Default literature model: gemini-2.0-flash ($0.000528/variant). Escalate to a larger tier only when the small-model cache miss fails structured-output validation.
-- Local tokenize time: 6.81 ms (0.57 ms/excerpt)
+- Local tokenize time: 9.91 ms (0.83 ms/excerpt)
 - API RTT: unmeasured
 - Rules-path CPU on 100 variants: unmeasured as a separate timer (runs inside criterion_agreement; wall time is dominated by process startup)
 

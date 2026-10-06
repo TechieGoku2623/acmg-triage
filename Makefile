@@ -16,16 +16,23 @@ test:
 
 research:
 	$(UV) run python research/phase0/run_all.py
+	$(UV) run python research/phase3/run.py
+	$(UV) run python research/phase0/render_docs.py
 
 eval:
 	$(UV) run python research/phase0/criterion_agreement/run.py
 	$(UV) run python research/phase0/llm_cost/run.py
 	$(UV) run python research/phase0/rules_only_coverage/run.py
+	$(UV) run python research/phase3/run.py
 	$(UV) run python research/phase0/render_docs.py
 
 demo:
 	$(UV) run acmg demo-plan --dry-run
+	$(UV) run acmg classify --hgvs "NM_000059.4:c.5946del" --explain
+	$(UV) run acmg classify --hgvs "NM_000059.4:c.1114A>C" --explain
+	$(UV) run acmg classify --hgvs "NM_000059.4:c.2311G>A" --explain
+	$(UV) run acmg classify --hgvs "NM_001005237.2:c.200A>G"
+	$(MAKE) eval
 
 record:
-	@echo "Asciinema recordings are a Phase 3 deliverable (demo/*.cast)."
-	@echo "Phase 0 has no classify CLI to record."
+	bash demo/record.sh

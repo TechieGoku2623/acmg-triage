@@ -1,0 +1,17 @@
+{
+  "decision": "Rules-only is the published baseline. Literature-disabled equals rules-only (0.670). Full system uses the typed graph (VCEP overlay reported; literature cache-only, cost=0).",
+  "frequency_only_concordance": 0.77,
+  "frequency_only_correct": 77,
+  "full_llm_off_concordance": 0.67,
+  "full_llm_off_correct": 67,
+  "full_llm_on_concordance": 0.67,
+  "full_llm_on_correct": 67,
+  "gold_class_counts": {
+    "Benign": 20,
+    "Conflicting": 11,
+    "Uncertain significance": 69
+  },
+  "n_variants": 100,
+  "rules_only_concordance": 0.67,
+  "rules_only_correct": 67
+}

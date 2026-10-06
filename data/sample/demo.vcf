@@ -1,0 +1,13 @@
+##fileformat=VCFv4.2
+##fileDate=20261006
+##source=acmg-triage designed 5-row demo VCF. Research tool only. Not clinical interpretation.
+##reference=GRCh38
+##INFO=<ID=HGVS,Number=1,Type=String,Description="HGVS cDNA">
+##INFO=<ID=GENE,Number=1,Type=String,Description="Gene symbol">
+##INFO=<ID=SAMPLE,Number=1,Type=String,Description="Designed sample id">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+13	32316461	S1	G	.	.	PASS	HGVS=NM_000059.4:c.5946del;GENE=BRCA2;SAMPLE=S1-pathogenic-frameshift
+13	32332592	S2	A	C	.	PASS	HGVS=NM_000059.4:c.1114A>C;GENE=BRCA2;SAMPLE=S2-ba1-short-circuit
+13	32336552	S3	G	A	.	PASS	HGVS=NM_000059.4:c.2311G>A;GENE=BRCA2;SAMPLE=S3-conflicting-vus
+14	23424157	S4	G	A	.	PASS	HGVS=NM_000257.4:c.1988G>A;GENE=MYH7;SAMPLE=S4-clingen-pm2-override
+11	12345678	S5	A	G	.	PASS	HGVS=NM_001005237.2:c.200A>G;GENE=OR8U1;SAMPLE=S5-insufficient-evidence

@@ -1,0 +1,113 @@
+{
+  "disclaimer": "Committed literature-node cache. Never a live API. Cost is always 0. Research tool only; not clinical interpretation.",
+  "nodes": ["PS3", "BS3", "PP4"],
+  "entries": {
+    "NM_000059.4:c.5946del": {
+      "PS3": {
+        "applied": false,
+        "rationale": "No well-established functional study in the committed cache for this frameshift.",
+        "excerpt_id": null,
+        "span": null
+      },
+      "BS3": {
+        "applied": false,
+        "rationale": "No benign functional study in the committed cache.",
+        "excerpt_id": null,
+        "span": null
+      },
+      "PP4": {
+        "applied": false,
+        "rationale": "Phenotype not in cache; PP4 not applied.",
+        "excerpt_id": null,
+        "span": null
+      }
+    },
+    "NM_000059.4:c.1114A>C": {
+      "PS3": {
+        "applied": false,
+        "rationale": "BA1 short-circuit: literature node not consulted.",
+        "excerpt_id": null,
+        "span": null,
+        "skipped": true
+      },
+      "BS3": {
+        "applied": false,
+        "rationale": "BA1 short-circuit: literature node not consulted. Cache holds a true-negative HDR assay (99% of wild-type) that is not used after BA1.",
+        "excerpt_id": "BS3-03",
+        "span": null,
+        "skipped": true
+      },
+      "PP4": {
+        "applied": false,
+        "rationale": "BA1 short-circuit: literature node not consulted.",
+        "excerpt_id": null,
+        "span": null,
+        "skipped": true
+      }
+    },
+    "NM_000059.4:c.2311G>A": {
+      "PS3": {
+        "applied": false,
+        "rationale": "No damaging functional study in the committed cache.",
+        "excerpt_id": null,
+        "span": null
+      },
+      "BS3": {
+        "applied": false,
+        "rationale": "Cache excerpt BS3-01 reports HDR 96% of wild-type, but the demo trail keeps PS3/BS3/PP4 off so conflict is shown from PM2+BP4 alone.",
+        "excerpt_id": "BS3-01",
+        "span": "HDR efficiency was 96% of wild-type",
+        "note": "Not applied: conflict path is computational, not literature."
+      },
+      "PP4": {
+        "applied": false,
+        "rationale": "No specific single-gene phenotype in cache.",
+        "excerpt_id": null,
+        "span": null
+      }
+    },
+    "NM_000257.4:c.1988G>A": {
+      "PS3": {
+        "applied": false,
+        "rationale": "No functional study in the committed cache for this allele.",
+        "excerpt_id": null,
+        "span": null
+      },
+      "BS3": {
+        "applied": false,
+        "rationale": "No benign functional study in the committed cache.",
+        "excerpt_id": null,
+        "span": null
+      },
+      "PP4": {
+        "applied": false,
+        "rationale": "Cache excerpt PP4-02: HCM phenotype is not specific to a single gene. PP4 not applied.",
+        "excerpt_id": "PP4-02",
+        "span": "The presentation is not specific to a single gene."
+      }
+    },
+    "NM_001005237.2:c.200A>G": {
+      "PS3": {
+        "applied": false,
+        "rationale": "Catalog coverage missing; literature nodes are not consulted.",
+        "excerpt_id": null,
+        "span": null,
+        "skipped": true
+      },
+      "BS3": {
+        "applied": false,
+        "rationale": "Catalog coverage missing; literature nodes are not consulted.",
+        "excerpt_id": null,
+        "span": null,
+        "skipped": true
+      },
+      "PP4": {
+        "applied": false,
+        "rationale": "Cache excerpt PP4-04 is non-specific headache/fatigue. Even if consulted, PP4 would not apply. Catalog refusal wins first.",
+        "excerpt_id": "PP4-04",
+        "span": "The phenotype is not specific for any single-gene disorder.",
+        "skipped": true
+      }
+    }
+  }
+}

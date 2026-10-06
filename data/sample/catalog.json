@@ -1,0 +1,17 @@
+{
+  "disclaimer": "Research tool only. This output does not constitute clinical interpretation and requires review by a licensed molecular geneticist. Committed catalog snapshot, not a live ClinVar query.",
+  "snapshot_id": "sample-catalog-v1",
+  "genes": {
+    "BRCA2": {
+      "covered": true,
+      "clingen_vcep": "ENIGMA BRCA1/BRCA2 v1.2.0",
+      "source": "committed sample catalog"
+    },
+    "MYH7": {
+      "covered": true,
+      "clingen_vcep": "ClinGen absent-only PM2 overlay (ENIGMA-style) on MYH7",
+      "source": "committed sample catalog"
+    }
+  },
+  "uncovered_example": "OR8U1"
+}
