@@ -8,7 +8,6 @@ that exits unexpectedly, fails the job.
 from __future__ import annotations
 
 import os
-import shlex
 import subprocess
 import sys
 from pathlib import Path
@@ -32,7 +31,7 @@ def main() -> None:
         expected = int(shot.get("expect_exit", 0))
         print(f"$ {command}", flush=True)
         proc = subprocess.run(
-            shlex.split(command),
+            ["bash", "--norc", "--noprofile", "-c", command],
             cwd=ROOT,
             env=env,
             check=False,
