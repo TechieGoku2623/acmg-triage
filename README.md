@@ -19,7 +19,6 @@ insufficient-evidence refusals.
 | 2 | First vertical slice | Phases 1–3 Merged |
 | 3 | Evaluation and demo | Phases 1–3 Merged |
 
-Status values: Not started / In progress / In review / Merged.
 
 ## The problem this solves
 
